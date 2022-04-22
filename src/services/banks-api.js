@@ -13,5 +13,5 @@ export const addBankToDB = bank => {
   return banks;
 };
 export const deleteBankFromDB = bank => {
-  axios.delete(`/banks/${bank.id}`);
+  axios.delete(`/banks/${bank._id}`);
 };
