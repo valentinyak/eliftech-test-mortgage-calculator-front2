@@ -1,7 +1,10 @@
 function Home() {
   return (
     <div className="Home">
-      <h2>Home</h2>
+      <h2>
+        This is a mortgage calculator where you can add banks and compare their
+        propositions of mortgage.
+      </h2>
     </div>
   );
 }
