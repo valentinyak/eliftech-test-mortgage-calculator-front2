@@ -16,7 +16,7 @@ function Management() {
       .then(
         setTimeout(() => {
           setRenderCount(0);
-        }, 1000),
+        }, 900),
       );
   };
 
@@ -24,8 +24,12 @@ function Management() {
     if (renderCount === 0) {
       getBanks()
         .then(response => setBanks(() => [...response.data]))
-        .then(setLoading(false))
-        .then(setRenderCount(1));
+        .then(setRenderCount(1))
+        .then(
+          setTimeout(() => {
+            setLoading(false);
+          }, 900),
+        );
     }
   }, [banks, renderCount]);
 
