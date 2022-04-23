@@ -11,41 +11,41 @@ function Management() {
     e.preventDefault();
     const bank = banks.find(bank => bank._id === e.target.id);
 
-    deleteBankFromDB(bank)
-      .then(setLoading(true))
-      .then(
-        setTimeout(() => {
-          setRenderCount(0);
-        }, 900),
-      );
+    setLoading(true);
+    deleteBankFromDB(bank).then(() => setRenderCount(0));
   };
 
   useEffect(() => {
     if (renderCount === 0) {
       getBanks()
         .then(response => setBanks(() => [...response.data]))
-        .then(setRenderCount(1))
-        .then(
-          setTimeout(() => {
-            setLoading(false);
-          }, 900),
-        );
+        .then(() => setRenderCount(1))
+        .then(() => setLoading(false));
     }
   }, [banks, renderCount]);
+
+  if (loading) {
+    return (
+      <div className="Management">
+        <h2>Management</h2>
+        <h3>Created banks</h3>
+
+        {loading && (
+          <ClipLoader
+            color="#00BFFF"
+            loading={loading}
+            size={120}
+            speedMultiplier="0.6"
+          />
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="Management">
       <h2>Management</h2>
       <h3>Created banks</h3>
-
-      {loading && (
-        <ClipLoader
-          color="#00BFFF"
-          loading={loading}
-          size={120}
-          speedMultiplier="0.6"
-        />
-      )}
 
       {banks.length === 0 ? (
         <h3>You haven't create any bank yet</h3>
