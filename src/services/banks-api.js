@@ -15,3 +15,6 @@ export const addBankToDB = bank => {
 export const deleteBankFromDB = async bank => {
   await axios.delete(`/banks/${bank._id}`);
 };
+export const editBank = async (id, body) => {
+  await axios.patch(`/banks/${id}`, body);
+};

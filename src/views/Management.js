@@ -1,11 +1,18 @@
 import { useState, useEffect } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
-import { getBanks, addBankToDB, deleteBankFromDB } from '../services/banks-api';
+import {
+  getBanks,
+  addBankToDB,
+  deleteBankFromDB,
+  editBank,
+} from '../services/banks-api';
 
 function Management() {
   const [banks, setBanks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [renderCount, setRenderCount] = useState(0);
+  const [needToEditBank, setNeedToEditBank] = useState(false);
+  const [bankToEdit, setBankToEdit] = useState(null);
 
   const handleDelete = e => {
     e.preventDefault();
@@ -15,17 +22,17 @@ function Management() {
     deleteBankFromDB(bank).then(() => setRenderCount(0));
   };
 
-  const handleSubmit = e => {
+  const handleAddSubmit = e => {
     e.preventDefault();
 
-    const { bankName, maxLoan, minDownPayment, loanTerm } =
+    const { name, max_loan, min_down_payment, loan_term } =
       e.currentTarget.form;
-    const maxLoanInt = parseInt(maxLoan.value);
-    const minDownPaymentInt = parseInt(minDownPayment.value);
-    const loanTermInt = parseInt(loanTerm.value);
+    const maxLoanInt = parseInt(max_loan.value);
+    const minDownPaymentInt = parseInt(min_down_payment.value);
+    const loanTermInt = parseInt(loan_term.value);
 
     const newBank = {
-      name: bankName.value,
+      name: name.value,
       max_loan: maxLoanInt,
       min_down_payment: minDownPaymentInt,
       loan_term: loanTermInt,
@@ -33,6 +40,40 @@ function Management() {
 
     setLoading(true);
     addBankToDB(newBank).then(() => setRenderCount(0));
+  };
+
+  const handleEditSubmit = e => {
+    e.preventDefault();
+
+    const [[, obj1], [, obj2], [, obj3], [, obj4]] = Object.entries(
+      e.currentTarget.form,
+    );
+    const inputsArray = [obj1, obj2, obj3, obj4];
+    const editedBank = {};
+
+    inputsArray.forEach(input => {
+      if (input.value !== '') {
+        if (input.name === 'name') {
+          Object.assign(editedBank, { [`${input.name}`]: `${input.value}` });
+        } else {
+          Object.assign(editedBank, {
+            [`${input.name}`]: parseInt(`${input.value}`),
+          });
+        }
+      }
+    });
+
+    setLoading(true);
+    editBank(bankToEdit.id, editedBank)
+      .then(() => setRenderCount(0))
+      .then(() => setNeedToEditBank(false));
+  };
+
+  const handleEdit = e => {
+    e.preventDefault();
+
+    setBankToEdit(e.target);
+    setNeedToEditBank(true);
   };
 
   useEffect(() => {
@@ -58,6 +99,56 @@ function Management() {
             speedMultiplier="0.6"
           />
         )}
+      </div>
+    );
+  }
+
+  if (needToEditBank) {
+    return (
+      <div className="Management">
+        <h2>Management</h2>
+        <h3>Edit bank {bankToEdit.name}</h3>
+
+        <form
+          action=""
+          style={{ display: 'flex', flexDirection: 'column', width: '350px' }}
+        >
+          <label
+            htmlFor=""
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            {' '}
+            Bank name
+            <input type="text" name="name" />
+          </label>
+          <label
+            htmlFor=""
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            {' '}
+            Max loan
+            <input type="text" name="max_loan" />
+          </label>
+          <label
+            htmlFor=""
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            {' '}
+            Min down payment
+            <input type="text" name="min_down_payment" />
+          </label>
+          <label
+            htmlFor=""
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            {' '}
+            Loan term
+            <input type="text" name="loan_term" />
+          </label>
+          <button type="button" onClick={handleEditSubmit}>
+            Edit bank
+          </button>
+        </form>
       </div>
     );
   }
@@ -88,7 +179,12 @@ function Management() {
                   <button type="button" onClick={handleDelete} id={bank._id}>
                     delete
                   </button>
-                  <button type="button" onClick={handleDelete} id={bank._id}>
+                  <button
+                    type="button"
+                    onClick={handleEdit}
+                    id={bank._id}
+                    name={bank.name}
+                  >
                     edit
                   </button>
                 </tr>
@@ -109,7 +205,7 @@ function Management() {
         >
           {' '}
           Bank name
-          <input type="text" name="bankName" />
+          <input type="text" name="name" />
         </label>
         <label
           htmlFor=""
@@ -117,7 +213,7 @@ function Management() {
         >
           {' '}
           Max loan
-          <input type="text" name="maxLoan" />
+          <input type="text" name="max_loan" />
         </label>
         <label
           htmlFor=""
@@ -125,7 +221,7 @@ function Management() {
         >
           {' '}
           Min down payment
-          <input type="text" name="minDownPayment" />
+          <input type="text" name="min_down_payment" />
         </label>
         <label
           htmlFor=""
@@ -133,9 +229,9 @@ function Management() {
         >
           {' '}
           Loan term
-          <input type="text" name="loanTerm" />
+          <input type="text" name="loan_term" />
         </label>
-        <button type="button" onClick={handleSubmit}>
+        <button type="button" onClick={handleAddSubmit}>
           Add new bank
         </button>
       </form>
