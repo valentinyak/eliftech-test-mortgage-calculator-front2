@@ -64,53 +64,57 @@ function Calculator() {
     <div className="Calculator">
       <h2>Calculator</h2>
 
-      <form
-        action=""
-        style={{ display: 'flex', flexDirection: 'column', width: '350px' }}
-      >
-        <h4>Insert loan params</h4>
+      {banks.length > 0 ? (
+        <form
+          action=""
+          style={{ display: 'flex', flexDirection: 'column', width: '350px' }}
+        >
+          <h4>Insert loan params</h4>
 
-        <label style={{ display: 'flex', justifyContent: 'space-between' }}>
-          Choose a bank:
-          <select name="name">
-            {banks.map(bank => {
-              return (
-                <option value={bank.name} key={bank._id}>
-                  {bank.name}
-                </option>
-              );
-            })}
-          </select>
-        </label>
+          <label style={{ display: 'flex', justifyContent: 'space-between' }}>
+            Choose a bank:
+            <select name="name">
+              {banks.map(bank => {
+                return (
+                  <option value={bank.name} key={bank._id}>
+                    {bank.name}
+                  </option>
+                );
+              })}
+            </select>
+          </label>
 
-        <label
-          htmlFor=""
-          style={{ display: 'flex', justifyContent: 'space-between' }}
-        >
-          {' '}
-          Loan amount
-          <input type="text" name="max_loan" />
-        </label>
-        <label
-          htmlFor=""
-          style={{ display: 'flex', justifyContent: 'space-between' }}
-        >
-          {' '}
-          Min down payment
-          <input type="text" name="min_down_payment" />
-        </label>
-        <label
-          htmlFor=""
-          style={{ display: 'flex', justifyContent: 'space-between' }}
-        >
-          {' '}
-          Loan term
-          <input type="text" name="loan_term" />
-        </label>
-        <button type="button" onClick={handleCheckSubmit}>
-          Calculate monthly payment
-        </button>
-      </form>
+          <label
+            htmlFor=""
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            {' '}
+            Loan amount
+            <input type="text" name="max_loan" />
+          </label>
+          <label
+            htmlFor=""
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            {' '}
+            Min down payment
+            <input type="text" name="min_down_payment" />
+          </label>
+          <label
+            htmlFor=""
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            {' '}
+            Loan term
+            <input type="text" name="loan_term" />
+          </label>
+          <button type="button" onClick={handleCheckSubmit}>
+            Calculate monthly payment
+          </button>
+        </form>
+      ) : (
+        <h3>You haven't create any bank yet</h3>
+      )}
 
       {monthlyPayment > 0 && (
         <h3>Your monthly payment is {monthlyPayment} USD</h3>

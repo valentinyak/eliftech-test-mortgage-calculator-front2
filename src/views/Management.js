@@ -25,14 +25,16 @@ function Management() {
   const handleAddSubmit = e => {
     e.preventDefault();
 
-    const { name, max_loan, min_down_payment, loan_term } =
+    const { name, interest_rate, max_loan, min_down_payment, loan_term } =
       e.currentTarget.form;
+    const interestRateInt = parseInt(interest_rate.value);
     const maxLoanInt = parseInt(max_loan.value);
     const minDownPaymentInt = parseInt(min_down_payment.value);
     const loanTermInt = parseInt(loan_term.value);
 
     const newBank = {
       name: name.value,
+      interest_rate: interestRateInt,
       max_loan: maxLoanInt,
       min_down_payment: minDownPaymentInt,
       loan_term: loanTermInt,
@@ -45,10 +47,10 @@ function Management() {
   const handleEditSubmit = e => {
     e.preventDefault();
 
-    const [[, obj1], [, obj2], [, obj3], [, obj4]] = Object.entries(
+    const [[, obj0], [, obj1], [, obj2], [, obj3], [, obj4]] = Object.entries(
       e.currentTarget.form,
     );
-    const inputsArray = [obj1, obj2, obj3, obj4];
+    const inputsArray = [obj0, obj1, obj2, obj3, obj4];
     const editedBank = {};
 
     inputsArray.forEach(input => {
@@ -126,6 +128,14 @@ function Management() {
             style={{ display: 'flex', justifyContent: 'space-between' }}
           >
             {' '}
+            Interest rate
+            <input type="text" name="interest_rate" />
+          </label>
+          <label
+            htmlFor=""
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            {' '}
             Max loan
             <input type="text" name="max_loan" />
           </label>
@@ -165,6 +175,7 @@ function Management() {
           <tbody>
             <tr>
               <th>Bank name</th>
+              <th>Interest rate</th>
               <th>Maximum loan</th>
               <th>Minimum down payment</th>
               <th>Loan term</th>
@@ -173,6 +184,7 @@ function Management() {
               return (
                 <tr key={bank._id}>
                   <td>{bank.name}</td>
+                  <td>{bank.interest_rate}</td>
                   <td>{bank.max_loan}</td>
                   <td>{bank.min_down_payment}</td>
                   <td>{bank.loan_term}</td>
@@ -206,6 +218,14 @@ function Management() {
           {' '}
           Bank name
           <input type="text" name="name" />
+        </label>
+        <label
+          htmlFor=""
+          style={{ display: 'flex', justifyContent: 'space-between' }}
+        >
+          {' '}
+          Interest rate
+          <input type="text" name="interest_rate" />
         </label>
         <label
           htmlFor=""
