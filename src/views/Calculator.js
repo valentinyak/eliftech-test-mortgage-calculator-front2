@@ -6,12 +6,22 @@ function Calculator() {
   const [banks, setBanks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [monthlyPayment, setMonthlyPayment] = useState(0.0);
+  const [chousedBank, setChousedBank] = useState({});
+
+  const changeSelectedBank = e => {
+    e.preventDefault();
+
+    const serchedBank = banks.find(bank => bank.name === e.target.value);
+    setChousedBank(serchedBank);
+  };
 
   const handleCheckSubmit = e => {
     e.preventDefault();
 
     const { name, max_loan, min_down_payment, loan_term } =
       e.currentTarget.form;
+
+    const interestRate = chousedBank.interest_rate;
     const maxLoanInt = parseInt(max_loan.value);
     const minDownPaymentInt = parseInt(min_down_payment.value);
     const loanTermInt = parseInt(loan_term.value);
@@ -22,8 +32,10 @@ function Calculator() {
       if (serchedBank.min_down_payment <= minDownPaymentInt) {
         if (serchedBank.loan_term >= loanTermInt) {
           const payment =
-            (maxLoanInt * (0.12 / 12) * Math.pow(1 + 0.12 / 12, loanTermInt)) /
-            (Math.pow(1 + 0.12 / 12, loanTermInt) - 1);
+            (maxLoanInt *
+              (interestRate / 100 / 12) *
+              Math.pow(1 + interestRate / 100 / 12, loanTermInt)) /
+            (Math.pow(1 + interestRate / 100 / 12, loanTermInt) - 1);
 
           setMonthlyPayment(parseFloat(payment.toFixed(2)));
         } else {
@@ -39,7 +51,12 @@ function Calculator() {
 
   useEffect(() => {
     getBanks()
-      .then(response => setBanks(() => [...response.data]))
+      .then(response =>
+        setBanks(() => {
+          setChousedBank(response.data[0]);
+          return [...response.data];
+        }),
+      )
       .then(() => setLoading(false));
   }, []);
 
@@ -73,7 +90,7 @@ function Calculator() {
 
           <label style={{ display: 'flex', justifyContent: 'space-between' }}>
             Choose a bank:
-            <select name="name">
+            <select name="name" onChange={changeSelectedBank}>
               {banks.map(bank => {
                 return (
                   <option value={bank.name} key={bank._id}>
@@ -84,6 +101,9 @@ function Calculator() {
             </select>
           </label>
 
+          <span style={{ display: 'flex', justifyContent: 'space-between' }}>
+            Interest rate <span>{chousedBank.interest_rate}%</span>
+          </span>
           <label
             htmlFor=""
             style={{ display: 'flex', justifyContent: 'space-between' }}
