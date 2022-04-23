@@ -22,20 +22,20 @@ function Calculator() {
       e.currentTarget.form;
 
     const interestRate = chousedBank.interest_rate;
-    const maxLoanInt = parseInt(max_loan.value);
-    const minDownPaymentInt = parseInt(min_down_payment.value);
-    const loanTermInt = parseInt(loan_term.value);
+    const loan = parseInt(max_loan.value);
+    const firstPayment = parseInt(min_down_payment.value);
+    const loanTerm = parseInt(loan_term.value);
 
     const serchedBank = banks.find(bank => bank.name === name.value);
 
-    if (serchedBank.max_loan >= maxLoanInt) {
-      if (serchedBank.min_down_payment <= minDownPaymentInt) {
-        if (serchedBank.loan_term >= loanTermInt) {
+    if (serchedBank.max_loan >= loan) {
+      if (serchedBank.min_down_payment <= firstPayment) {
+        if (serchedBank.loan_term >= loanTerm) {
           const payment =
-            (maxLoanInt *
+            (loan *
               (interestRate / 100 / 12) *
-              Math.pow(1 + interestRate / 100 / 12, loanTermInt)) /
-            (Math.pow(1 + interestRate / 100 / 12, loanTermInt) - 1);
+              Math.pow(1 + interestRate / 100 / 12, loanTerm)) /
+            (Math.pow(1 + interestRate / 100 / 12, loanTerm) - 1);
 
           setMonthlyPayment(parseFloat(payment.toFixed(2)));
         } else {
