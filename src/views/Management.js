@@ -216,7 +216,7 @@ function Management() {
           style={{ display: 'flex', justifyContent: 'space-between' }}
         >
           {' '}
-          Bank name
+          Bank name (unique)
           <input type="text" name="name" />
         </label>
         <label
