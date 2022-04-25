@@ -6,8 +6,10 @@ import {
   deleteBankFromDB,
   editBank,
 } from '../services/banks-api';
+import BanksTable from '../components/Management/BanksTable/BanksTable';
+import BankAddForm from '../components/Management/BankAddForm/BankAddForm';
 
-function Management() {
+export default function ManagementView() {
   const [banks, setBanks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [renderCount, setRenderCount] = useState(0);
@@ -162,99 +164,21 @@ function Management() {
   }
 
   return (
-    <div className="Management">
+    <div>
       <h2>Management</h2>
       <h3>Created banks</h3>
 
       {banks.length === 0 ? (
         <h3>You haven't create any bank yet</h3>
       ) : (
-        <table>
-          <tbody>
-            <tr>
-              <th>Bank name</th>
-              <th>Interest rate</th>
-              <th>Maximum loan</th>
-              <th>Minimum down payment</th>
-              <th>Loan term</th>
-            </tr>
-            {banks.map(bank => {
-              return (
-                <tr key={bank._id}>
-                  <td>{bank.name}</td>
-                  <td>{bank.interest_rate}</td>
-                  <td>{bank.max_loan}</td>
-                  <td>{bank.min_down_payment}</td>
-                  <td>{bank.loan_term}</td>
-                  <button type="button" onClick={handleDelete} id={bank._id}>
-                    delete
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleEdit}
-                    id={bank._id}
-                    name={bank.name}
-                  >
-                    edit
-                  </button>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <BanksTable
+          banks={banks}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+        />
       )}
 
-      <form
-        action=""
-        style={{ display: 'flex', flexDirection: 'column', width: '350px' }}
-      >
-        <h4>Add bank</h4>
-        <label
-          htmlFor=""
-          style={{ display: 'flex', justifyContent: 'space-between' }}
-        >
-          {' '}
-          Bank name (unique)
-          <input type="text" name="name" />
-        </label>
-        <label
-          htmlFor=""
-          style={{ display: 'flex', justifyContent: 'space-between' }}
-        >
-          {' '}
-          Interest rate
-          <input type="text" name="interest_rate" />
-        </label>
-        <label
-          htmlFor=""
-          style={{ display: 'flex', justifyContent: 'space-between' }}
-        >
-          {' '}
-          Max loan
-          <input type="text" name="max_loan" />
-        </label>
-        <label
-          htmlFor=""
-          style={{ display: 'flex', justifyContent: 'space-between' }}
-        >
-          {' '}
-          Min down payment
-          <input type="text" name="min_down_payment" />
-        </label>
-        <label
-          htmlFor=""
-          style={{ display: 'flex', justifyContent: 'space-between' }}
-        >
-          {' '}
-          Loan term
-          <input type="text" name="loan_term" />
-        </label>
-        <button type="button" onClick={handleAddSubmit}>
-          Add new bank
-        </button>
-      </form>
+      <BankAddForm handleAddSubmit={handleAddSubmit} />
     </div>
   );
 }
-
-export default Management;

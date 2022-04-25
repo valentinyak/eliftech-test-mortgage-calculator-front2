@@ -1,11 +1,10 @@
-.calculator-form {
+.bank-add-form {
   display: flex;
   flex-direction: column;
   width: 350px;
 }
 
-.calculator-form-label,
-.interest-rate-span {
+.bank-add-form-label {
   display: flex;
   justify-content: space-between;
 }

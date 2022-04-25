@@ -7,10 +7,10 @@ export default function CalculatorForm({
   handleCheckSubmit,
 }) {
   return (
-    <form>
+    <form className="calculator-form">
       <h4>Insert loan params</h4>
 
-      <label>
+      <label className="calculator-form-label">
         Choose a bank:
         <select name="name" onChange={selectBank}>
           {banks.map(bank => {
@@ -23,17 +23,17 @@ export default function CalculatorForm({
         Interest rate <span>{chousedBank.interest_rate}%</span>
       </span>
 
-      <label>
+      <label className="calculator-form-label">
         Loan amount
         <input type="text" name="max_loan" />
       </label>
 
-      <label>
+      <label className="calculator-form-label">
         Min down payment
         <input type="text" name="min_down_payment" />
       </label>
 
-      <label>
+      <label className="calculator-form-label">
         Loan term
         <input type="text" name="loan_term" />
       </label>

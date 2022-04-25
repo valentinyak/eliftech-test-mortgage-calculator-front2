@@ -1,18 +1,12 @@
 import { getBanks } from '../../services/banks-api';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import calculateMortgageMonthlyPayment from '../../services/mortgage-formula';
 import CalculatorView from '../../views/CalculatorView';
 
-export default function Calculator({
-  banks,
-  setBanks,
-  isLoading,
-  setIsLoading,
-  monthlyPayment,
-  setMonthlyPayment,
-  chousedBank,
-  setChousedBank,
-}) {
+export default function Calculator({ banks, isLoading }) {
+  const [monthlyPayment, setMonthlyPayment] = useState(0.0);
+  const [chousedBank, setChousedBank] = useState({});
+
   const changeSelectedBank = e => {
     e.preventDefault();
 
@@ -55,15 +49,8 @@ export default function Calculator({
   };
 
   useEffect(() => {
-    getBanks()
-      .then(response =>
-        setBanks(() => {
-          setChousedBank(response.data[0]);
-          return [...response.data];
-        }),
-      )
-      .then(() => setIsLoading(false));
-  }, [setBanks, setChousedBank, setIsLoading]);
+    getBanks().then(res => setChousedBank(res.data[0]));
+  }, []);
 
   return (
     <CalculatorView
