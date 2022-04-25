@@ -1,6 +1,6 @@
-function Home() {
+export default function HomeView() {
   return (
-    <div className="Home">
+    <div>
       <h2>
         This is a mortgage calculator where you can add banks and compare their
         propositions of mortgage.
@@ -8,5 +8,3 @@ function Home() {
     </div>
   );
 }
-
-export default Home;

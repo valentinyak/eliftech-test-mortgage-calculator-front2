@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import Home from './views/Home';
+import HomeView from './views/HomeView';
 import Management from './views/Management';
 import Calculator from './components/Calculator/Calculator';
 import Nav from './components/Nav';
@@ -37,7 +37,7 @@ function App() {
               />
             }
           />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomeView />} />
         </Routes>
       </div>
     </Router>

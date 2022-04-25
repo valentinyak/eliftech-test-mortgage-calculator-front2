@@ -11,7 +11,7 @@ export default function CalculatorView({
 }) {
   if (isLoading) {
     return (
-      <div className="Management">
+      <div>
         <h2>Calculator</h2>
 
         <ClipLoader color="#00BFFF" size={120} speedMultiplier="0.6" />
@@ -20,7 +20,7 @@ export default function CalculatorView({
   }
 
   return (
-    <div className="Calculator">
+    <div>
       <h2>Calculator</h2>
 
       {banks.length > 0 ? (
