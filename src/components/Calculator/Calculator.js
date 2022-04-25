@@ -1,15 +1,18 @@
-import { getBanks } from '../services/banks-api';
-import { useState, useEffect } from 'react';
-import ClipLoader from 'react-spinners/ClipLoader';
-import calculateMortgageMonthlyPayment from '../services/mortgage-formula';
-import CalculatorForm from '../components/Calculator/CalculatorForm/CalculatorForm';
+import { getBanks } from '../../services/banks-api';
+import { useEffect } from 'react';
+import calculateMortgageMonthlyPayment from '../../services/mortgage-formula';
+import CalculatorView from '../../views/CalculatorView';
 
-function Calculator() {
-  const [banks, setBanks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [monthlyPayment, setMonthlyPayment] = useState(0.0);
-  const [chousedBank, setChousedBank] = useState({});
-
+export default function Calculator({
+  banks,
+  setBanks,
+  isLoading,
+  setIsLoading,
+  monthlyPayment,
+  setMonthlyPayment,
+  chousedBank,
+  setChousedBank,
+}) {
   const changeSelectedBank = e => {
     e.preventDefault();
 
@@ -59,44 +62,17 @@ function Calculator() {
           return [...response.data];
         }),
       )
-      .then(() => setLoading(false));
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="Management">
-        <h2>Calculator</h2>
-
-        <ClipLoader
-          color="#00BFFF"
-          loading={loading}
-          size={120}
-          speedMultiplier="0.6"
-        />
-      </div>
-    );
-  }
+      .then(() => setIsLoading(false));
+  }, [setBanks, setChousedBank, setIsLoading]);
 
   return (
-    <div className="Calculator">
-      <h2>Calculator</h2>
-
-      {banks.length > 0 ? (
-        <CalculatorForm
-          selectBank={changeSelectedBank}
-          banks={banks}
-          chousedBank={chousedBank}
-          handleCheckSubmit={handleCheckSubmit}
-        />
-      ) : (
-        <h3>You haven't create any bank yet</h3>
-      )}
-
-      {monthlyPayment > 0 && (
-        <h3>Your monthly payment is {monthlyPayment} USD</h3>
-      )}
-    </div>
+    <CalculatorView
+      isLoading={isLoading}
+      banks={banks}
+      changeSelectedBank={changeSelectedBank}
+      chousedBank={chousedBank}
+      handleCheckSubmit={handleCheckSubmit}
+      monthlyPayment={monthlyPayment}
+    />
   );
 }
-
-export default Calculator;
