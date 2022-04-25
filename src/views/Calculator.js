@@ -1,6 +1,7 @@
 import { getBanks } from '../services/banks-api';
 import { useState, useEffect } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
+import calculateMortgageMonthlyPayment from '../services/mortgage-formula';
 
 function Calculator() {
   const [banks, setBanks] = useState([]);
@@ -31,11 +32,11 @@ function Calculator() {
     if (serchedBank.max_loan >= loan) {
       if (serchedBank.min_down_payment <= firstPayment) {
         if (serchedBank.loan_term >= loanTerm) {
-          const payment =
-            (loan *
-              (interestRate / 100 / 12) *
-              Math.pow(1 + interestRate / 100 / 12, loanTerm)) /
-            (Math.pow(1 + interestRate / 100 / 12, loanTerm) - 1);
+          const payment = calculateMortgageMonthlyPayment(
+            loan,
+            interestRate,
+            loanTerm,
+          );
 
           setMonthlyPayment(parseFloat(payment.toFixed(2)));
         } else {
@@ -65,14 +66,12 @@ function Calculator() {
       <div className="Management">
         <h2>Calculator</h2>
 
-        {loading && (
-          <ClipLoader
-            color="#00BFFF"
-            loading={loading}
-            size={120}
-            speedMultiplier="0.6"
-          />
-        )}
+        <ClipLoader
+          color="#00BFFF"
+          loading={loading}
+          size={120}
+          speedMultiplier="0.6"
+        />
       </div>
     );
   }

@@ -93,14 +93,12 @@ function Management() {
         <h2>Management</h2>
         <h3>Created banks</h3>
 
-        {loading && (
-          <ClipLoader
-            color="#00BFFF"
-            loading={loading}
-            size={120}
-            speedMultiplier="0.6"
-          />
-        )}
+        <ClipLoader
+          color="#00BFFF"
+          loading={loading}
+          size={120}
+          speedMultiplier="0.6"
+        />
       </div>
     );
   }
