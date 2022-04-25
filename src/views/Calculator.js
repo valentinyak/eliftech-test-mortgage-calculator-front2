@@ -2,7 +2,7 @@ import { getBanks } from '../services/banks-api';
 import { useState, useEffect } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import calculateMortgageMonthlyPayment from '../services/mortgage-formula';
-import CalculatorForm from '../components/Calculator/CalculatorForm';
+import CalculatorForm from '../components/Calculator/CalculatorForm/CalculatorForm';
 
 function Calculator() {
   const [banks, setBanks] = useState([]);
