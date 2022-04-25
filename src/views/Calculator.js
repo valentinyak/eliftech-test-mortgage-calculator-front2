@@ -2,6 +2,7 @@ import { getBanks } from '../services/banks-api';
 import { useState, useEffect } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import calculateMortgageMonthlyPayment from '../services/mortgage-formula';
+import CalculatorForm from '../components/Calculator/CalculatorForm';
 
 function Calculator() {
   const [banks, setBanks] = useState([]);
@@ -81,56 +82,12 @@ function Calculator() {
       <h2>Calculator</h2>
 
       {banks.length > 0 ? (
-        <form
-          action=""
-          style={{ display: 'flex', flexDirection: 'column', width: '350px' }}
-        >
-          <h4>Insert loan params</h4>
-
-          <label style={{ display: 'flex', justifyContent: 'space-between' }}>
-            Choose a bank:
-            <select name="name" onChange={changeSelectedBank}>
-              {banks.map(bank => {
-                return (
-                  <option value={bank.name} key={bank._id}>
-                    {bank.name}
-                  </option>
-                );
-              })}
-            </select>
-          </label>
-
-          <span style={{ display: 'flex', justifyContent: 'space-between' }}>
-            Interest rate <span>{chousedBank.interest_rate}%</span>
-          </span>
-          <label
-            htmlFor=""
-            style={{ display: 'flex', justifyContent: 'space-between' }}
-          >
-            {' '}
-            Loan amount
-            <input type="text" name="max_loan" />
-          </label>
-          <label
-            htmlFor=""
-            style={{ display: 'flex', justifyContent: 'space-between' }}
-          >
-            {' '}
-            Min down payment
-            <input type="text" name="min_down_payment" />
-          </label>
-          <label
-            htmlFor=""
-            style={{ display: 'flex', justifyContent: 'space-between' }}
-          >
-            {' '}
-            Loan term
-            <input type="text" name="loan_term" />
-          </label>
-          <button type="button" onClick={handleCheckSubmit}>
-            Calculate monthly payment
-          </button>
-        </form>
+        <CalculatorForm
+          selectBank={changeSelectedBank}
+          banks={banks}
+          chousedBank={chousedBank}
+          handleCheckSubmit={handleCheckSubmit}
+        />
       ) : (
         <h3>You haven't create any bank yet</h3>
       )}
