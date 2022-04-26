@@ -1,38 +1,35 @@
-import './BankAddForm.css';
+import './BankEditForm.css';
 
-export default function BankAddForm({ handleAddSubmit }) {
+export default function BankEditForm({ handleEditSubmit }) {
   return (
-    <form className="bank-add-form">
-      <h4>Add bank</h4>
-      <h5>All fields are required</h5>
-
-      <label className="bank-add-label">
+    <form className="bank-edit-form">
+      <label className="bank-edit-label">
         Bank name (unique)
         <input type="text" name="name" />
       </label>
 
-      <label className="bank-add-label">
+      <label className="bank-edit-label">
         Interest rate
         <input type="text" name="interest_rate" />
       </label>
 
-      <label className="bank-add-label">
+      <label className="bank-edit-label">
         Max loan
         <input type="text" name="max_loan" />
       </label>
 
-      <label className="bank-add-label">
+      <label className="bank-edit-label">
         Min down payment
         <input type="text" name="min_down_payment" />
       </label>
 
-      <label className="bank-add-label">
+      <label className="bank-edit-label">
         Loan term
         <input type="text" name="loan_term" />
       </label>
 
-      <button type="button" onClick={handleAddSubmit}>
-        Add new bank
+      <button type="button" onClick={handleEditSubmit}>
+        Edit bank
       </button>
     </form>
   );

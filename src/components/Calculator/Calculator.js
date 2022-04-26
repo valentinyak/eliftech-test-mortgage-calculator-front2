@@ -1,11 +1,14 @@
-import { getBanks } from '../../services/banks-api';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import calculateMortgageMonthlyPayment from '../../services/mortgage-formula';
 import CalculatorView from '../../views/CalculatorView';
 
-export default function Calculator({ banks, isLoading }) {
+export default function Calculator({
+  banks,
+  isLoading,
+  chousedBank,
+  setChousedBank,
+}) {
   const [monthlyPayment, setMonthlyPayment] = useState(0.0);
-  const [chousedBank, setChousedBank] = useState({});
 
   const changeSelectedBank = e => {
     e.preventDefault();
@@ -38,19 +41,15 @@ export default function Calculator({ banks, isLoading }) {
 
           setMonthlyPayment(parseFloat(payment.toFixed(2)));
         } else {
-          alert('The parameters you requested do not match the selected bank');
+          alert('Loan term do not match the selected bank');
         }
       } else {
-        alert('The parameters you requested do not match the selected bank');
+        alert('Min down payment do not match the selected bank');
       }
     } else {
-      alert('The parameters you requested do not match the selected bank');
+      alert('Loan amount do not match the selected bank');
     }
   };
-
-  useEffect(() => {
-    getBanks().then(res => setChousedBank(res.data[0]));
-  }, []);
 
   return (
     <CalculatorView
