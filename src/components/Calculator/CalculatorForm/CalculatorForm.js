@@ -12,10 +12,16 @@ export default function CalculatorForm({
 
       <label className="calculator-form-label">
         Choose a bank:
-        <select name="name" onChange={selectBank}>
-          {banks.map(bank => {
-            return <option key={bank._id}>{bank.name}</option>;
-          })}
+        <select
+          name="name"
+          onChange={selectBank}
+          defaultValue={banks.find(bank => bank._id === chousedBank._id).name}
+        >
+          {banks.map(bank => (
+            <option key={bank._id} value={bank.name}>
+              {bank.name}
+            </option>
+          ))}
         </select>
       </label>
 

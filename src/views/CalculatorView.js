@@ -31,7 +31,7 @@ export default function CalculatorView({
           handleCheckSubmit={handleCheckSubmit}
         />
       ) : (
-        <h3>You haven't create any bank yet</h3>
+        <h3>You haven't created any bank yet</h3>
       )}
 
       {monthlyPayment > 0 && (
