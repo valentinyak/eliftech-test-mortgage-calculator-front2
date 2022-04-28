@@ -41,12 +41,15 @@ export default function Calculator({
 
           setMonthlyPayment(parseFloat(payment.toFixed(2)));
         } else {
+          setMonthlyPayment(0.0);
           alert('Loan term do not match the selected bank');
         }
       } else {
+        setMonthlyPayment(0.0);
         alert('Min down payment do not match the selected bank');
       }
     } else {
+      setMonthlyPayment(0.0);
       alert('Loan amount do not match the selected bank');
     }
   };
